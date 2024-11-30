@@ -88,12 +88,14 @@
         <div id="timer" class="timer">时间: 30秒</div>
         <button id="restart">重新开始</button>
         <div id="gameOver" class="game-over"></div>
+        <button id="playMusic">播放音乐</button>
         <button id="mute" class="mute-btn">静音</button>
     </div>
 
     <!-- 背景音乐 -->
     <audio id="back" loop>
         <source src="back.mp3" type="audio/mp3">
+        您的浏览器不支持音频元素。
     </audio>
 
     <script>
@@ -102,6 +104,10 @@
         const timerDisplay = document.getElementById('timer');
         const restartButton = document.getElementById('restart');
         const gameOverDisplay = document.getElementById('gameOver');
+        const playButton = document.getElementById('playMusic');
+        const muteButton = document.getElementById('mute');
+        const bgMusic = document.getElementById('back');
+        
         let cards = [];
         let flippedCards = [];
         let matchedPairs = 0;
@@ -121,7 +127,6 @@
             'images/7.jpg', 
             'images/8.jpg'
         ];
-        
 
         function createBoard() {
             let cardDeck = [...cardValues, ...cardValues];
@@ -221,6 +226,22 @@
             createBoard();
             if (!gameInProgress) startTimer();
         }
+
+        // 播放音乐按钮功能
+        playButton.addEventListener('click', function() {
+            bgMusic.play();
+        });
+
+        // 静音按钮功能
+        muteButton.addEventListener('click', function() {
+            if (bgMusic.muted) {
+                bgMusic.muted = false;
+                muteButton.textContent = '静音';
+            } else {
+                bgMusic.muted = true;
+                muteButton.textContent = '取消静音';
+            }
+        });
 
         restartButton.addEventListener('click', restartGame);
 
