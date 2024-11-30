@@ -301,14 +301,24 @@
         }
 
         function restartGame() {
-            board.innerHTML = '';
-            flippedCards = [];
-            matchedPairs = 0;
-            score = 0;
-            timer = 30;
-            updateScore();
-            gameOverDisplay.textContent = '';
-            timerDisplay.textContent = `시간: 30秒`;
+            if (restartCount > 0) {
+                board.innerHTML = '';
+                flippedCards = [];
+                matchedPairs = 0;
+                score = 0;
+                timer = 30;
+                updateScore();
+                gameOverDisplay.textContent = '';
+                timerDisplay.textContent = `시간: 30秒`;
+                createBoard();
+                restartCount--;
+                localStorage.setItem('restartCount', restartCount);  // 更新本地存储
+                restartCountDisplay.textContent = `남은 재시도 횟수: ${restartCount}`;
+                if (!gameInProgress) startTimer();
+            } else {
+                alert("오늘의 재시도 횟수를 모두 사용했습니다！");
+            }
+        }
         }
     </script>
 </body>
