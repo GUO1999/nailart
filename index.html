@@ -88,7 +88,13 @@
         <div id="timer" class="timer">时间: 30秒</div>
         <button id="restart">重新开始</button>
         <div id="gameOver" class="game-over"></div>
+        <button id="mute" class="mute-btn">静音</button>
     </div>
+
+    <!-- 背景音乐 -->
+    <audio id="bg-music" loop>
+        <source src="back.mp3" type="audio/mp3">
+    </audio>
 
     <script>
         const board = document.getElementById('board');
@@ -115,6 +121,7 @@
             'images/7.jpg', 
             'images/8.jpg'
         ];
+        
 
         function createBoard() {
             let cardDeck = [...cardValues, ...cardValues];
