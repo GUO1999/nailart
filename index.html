@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.8">
-    <title>记忆匹配游戏</title>
+    <title>Soulnailart의 돈 버는 기억 매칭 게임</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -116,14 +116,15 @@
 </head>
 <body>
     <div class="game-container">
-        <h1>记忆匹配游戏</h1>
+        <h1>기억 매칭 게임</h1>
         <div id="board" class="board"></div>
-        <div id="score" class="score">得分: 0</div>
-        <div id="timer" class="timer">时间: 30秒</div>
-        <button id="restart">重新开始</button>
+        <div id="score" class="score">점수: 0</div>
+        <div id="timer" class="timer">시간: 30 S</div>
+        <button id="restart">다시 시작</button>
         <div id="gameOver" class="game-over"></div>
-        <button id="playMusic">播放音乐</button>
-        <button id="mute" class="mute-btn">静音</button>
+        <button id="playMusic">음악 재생</button>
+        <button id="mute" class="mute-btn">음소거</button>
+        <div id="restartCount"></div> <!-- 显示剩余重试次数 -->
     </div>
 
     <!-- 背景音乐 -->
@@ -135,22 +136,22 @@
     <!-- 游戏规则弹窗 -->
     <div id="gameRuleModal" class="modal">
         <div class="modal-content">
-            <h2>游戏规则</h2>
-            <p>1. 记忆匹配游戏是一种卡片配对游戏。</p>
-            <p>2. 游戏开始时，卡片会随机显示，您需要在规定时间内匹配相同的卡片。</p>
-            <p>3. 每次配对正确将获得10分，成功配对所有卡片后游戏结束。</p>
-            <p>4. 时间结束后，游戏也会结束。</p>
-            <button id="startGameBtn">开始游戏</button>
+            <h2>게임 규칙</h2>
+            <p>1. 기억 매칭 게임은 카드 짝 맞추기 게임입니다.</p>
+            <p>2. 게임이 시작되면 카드가 무작위로 표시되며, 정해진 시간 안에 동일한 카드를 맞춰야 합니다.</p>
+            <p>3. 각각의 카드가 일치할 때마다 10점을 얻으며, 모든 카드를 성공적으로 맞추면 게임이 종료됩니다.</p>
+            <p>4. 시간이 종료되면 게임도 종료됩니다. 게임에 성공하면 500원이 지급됩니다.</p>
+            <button id="startGameBtn">게임 시작</button>
         </div>
     </div>
 
     <!-- 成功弹窗 -->
     <div id="winModal" class="modal">
         <div class="modal-content">
-            <h2>恭喜！你赢得了500韩元！</h2>
-            <p>点击下面的链接领取奖励。</p>
+            <h2>축하합니다! 500원 획득하셨습니다！</h2>
+            <p>아래 링크를 클릭하여 보상을 받으세요.</p>
             <a href="https://your-reward-link.com" target="_blank">
-                <button>领取奖励</button>
+                <button>보상 받기</button>
             </a>
         </div>
     </div>
@@ -161,6 +162,7 @@
         const timerDisplay = document.getElementById('timer');
         const restartButton = document.getElementById('restart');
         const gameOverDisplay = document.getElementById('gameOver');
+         const restartCountDisplay = document.getElementById('restartCount');
         const playButton = document.getElementById('playMusic');
         const muteButton = document.getElementById('mute');
         const bgMusic = document.getElementById('back');
@@ -187,6 +189,11 @@
             'images/7.jpg', 
             'images/8.jpg'
         ];
+
+          // 获取并更新剩余重试次数
+        let restartCount = localStorage.getItem('restartCount') || 3;
+        restartCountDisplay.textContent = `남은 재시도 횟수: ${restartCount}`;
+
 
         // 显示游戏规则弹窗
         window.onload = function() {
@@ -275,20 +282,20 @@
         }
 
         function updateScore() {
-            scoreDisplay.textContent = `得分: ${score}`;
+            scoreDisplay.textContent = `점수: ${score}`;
         }
 
         function startTimer() {
             gameInProgress = true;
             gameTimer = setInterval(() => {
                 timer--;
-                timerDisplay.textContent = `时间: ${timer}秒`;
+                timerDisplay.textContent = `시간: ${timer}秒`;
 
                 if (timer <= 0) {
                     clearInterval(gameTimer);
                     gameInProgress = false;
-                    gameOverDisplay.textContent = '游戏结束！时间到！';
-                    setTimeout(() => alert('游戏结束！时间到！'), 500);
+                    gameOverDisplay.textContent = '게임 종료! 시간 초과！';
+                    setTimeout(() => alert('게임 종료! 시간 초과！'), 500);
                 }
             }, 1000);
         }
@@ -301,7 +308,7 @@
             timer = 30;
             updateScore();
             gameOverDisplay.textContent = '';
-            timerDisplay.textContent = `时间: 30秒`;
+            timerDisplay.textContent = `시간: 30秒`;
         }
     </script>
 </body>
