@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Match Game</title>
+    <title>记忆匹配游戏</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,9 +36,9 @@
         .card {
             width: 100px;
             height: 100px;
-            background-color: pink; /* Set background color to pink */
+            background-color: pink;
             border-radius: 10px;
-            border: 3px solid darkpink; /* Set border color to dark pink */
+            border: 3px solid darkpink;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -82,11 +82,11 @@
 </head>
 <body>
     <div class="game-container">
-        <h1>Memory Match Game</h1>
+        <h1>记忆匹配游戏</h1>
         <div id="board" class="board"></div>
-        <div id="score" class="score">Score: 0</div>
-        <div id="timer" class="timer">Time: 30s</div>
-        <button id="restart">Restart</button>
+        <div id="score" class="score">得分: 0</div>
+        <div id="timer" class="timer">时间: 30秒</div>
+        <button id="restart">重新开始</button>
         <div id="gameOver" class="game-over"></div>
     </div>
 
@@ -100,11 +100,21 @@
         let flippedCards = [];
         let matchedPairs = 0;
         let score = 0;
-        let timer = 30;  // 30 seconds countdown
+        let timer = 30;  // 30秒倒计时
         let gameTimer;
         let gameInProgress = false;
 
-        const cardValues = ['🍎', '🍌', '🍒', '🍓', '🍉', '🍊', '🍍', '🍑'];
+        // 更新为图像路径
+        const cardValues = [
+            'images/1.jpg', 
+            'images/2.jpg', 
+            'images/3.jpg', 
+            'images/4.jpg', 
+            'images/5.jpg', 
+            'images/6.jpg', 
+            'images/7.jpg', 
+            'images/8.jpg'
+        ];
 
         function createBoard() {
             let cardDeck = [...cardValues, ...cardValues];
@@ -129,7 +139,17 @@
             }
 
             this.classList.add('flipped');
-            this.textContent = this.dataset.value;
+
+            // 创建 img 元素并设置其源为当前卡片的图像
+            const img = document.createElement('img');
+            img.src = this.dataset.value;
+            img.alt = 'Card Image';
+            img.style.width = '80px'; // 可调整图像大小
+            img.style.height = '80px';
+
+            this.innerHTML = ''; // 清空当前卡片内容
+            this.appendChild(img); // 将图像添加到卡片中
+            
             flippedCards.push(this);
 
             if (flippedCards.length === 2) {
@@ -148,15 +168,15 @@
                 updateScore();
 
                 if (matchedPairs === cardValues.length) {
-                    clearInterval(gameTimer);  // Stop the timer when game is completed
-                    setTimeout(() => alert('You won!'), 500);
+                    clearInterval(gameTimer);  // 游戏完成时停止计时器
+                    setTimeout(() => alert('你赢了！'), 500);
                 }
             } else {
                 setTimeout(() => {
                     firstCard.classList.remove('flipped');
                     secondCard.classList.remove('flipped');
-                    firstCard.textContent = '';
-                    secondCard.textContent = '';
+                    firstCard.innerHTML = '';
+                    secondCard.innerHTML = '';
                 }, 1000);
             }
 
@@ -164,20 +184,20 @@
         }
 
         function updateScore() {
-            scoreDisplay.textContent = `Score: ${score}`;
+            scoreDisplay.textContent = `得分: ${score}`;
         }
 
         function startTimer() {
             gameInProgress = true;
             gameTimer = setInterval(() => {
                 timer--;
-                timerDisplay.textContent = `Time: ${timer}s`;
+                timerDisplay.textContent = `时间: ${timer}秒`;
 
                 if (timer <= 0) {
                     clearInterval(gameTimer);
                     gameInProgress = false;
-                    gameOverDisplay.textContent = 'Game Over! Time is up!';
-                    setTimeout(() => alert('Game Over! Time is up!'), 500);
+                    gameOverDisplay.textContent = '游戏结束！时间到！';
+                    setTimeout(() => alert('游戏结束！时间到！'), 500);
                 }
             }, 1000);
         }
@@ -187,10 +207,10 @@
             flippedCards = [];
             matchedPairs = 0;
             score = 0;
-            timer = 60;
+            timer = 30;
             updateScore();
             gameOverDisplay.textContent = '';
-            timerDisplay.textContent = `Time: 30s`;
+            timerDisplay.textContent = `时间: 30秒`;
             createBoard();
             if (!gameInProgress) startTimer();
         }
@@ -198,7 +218,7 @@
         restartButton.addEventListener('click', restartGame);
 
         createBoard();
-        startTimer();  // Start the timer when the game loads
+        startTimer();  // 游戏加载时启动计时器
     </script>
 </body>
 </html>
